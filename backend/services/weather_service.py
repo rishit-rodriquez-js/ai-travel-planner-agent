@@ -1,8 +1,10 @@
 import httpx
 from typing import Optional
+from langsmith import traceable
 from config.settings import settings
 from models.schemas import WeatherInfo
 
+@traceable(name="fetch_weather_info")
 async def fetch_weather_info(city_or_dest: str) -> WeatherInfo:
     city = city_or_dest.split(",")[0].strip()
     

@@ -1,12 +1,15 @@
 import json
 from typing import List, Dict, Any, Tuple
 from openai import AsyncOpenAI
+from langsmith import traceable
+from langsmith.wrappers import wrap_openai
 from config.settings import settings
 from agents.router import classify_intent
 from services.weather_service import fetch_weather_info
 from services.country_service import fetch_country_info
 from rag.retriever import retrieve_context_for_query
 
+@traceable(name="process_agent_chat")
 async def process_agent_chat(query: str, history: List[Dict[str, str]] = None) -> Tuple[str, bool, List[str], List[str]]:
     steps = [
         "✓ Query Received",
@@ -44,7 +47,7 @@ async def process_agent_chat(query: str, history: List[Dict[str, str]] = None) -
 
     steps.append("✓ OpenAI Response Generation Started")
     
-    client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY) if settings.OPENAI_API_KEY else None
+    client = wrap_openai(AsyncOpenAI(api_key=settings.OPENAI_API_KEY)) if settings.OPENAI_API_KEY else None
     
     system_instruction = """
     You are an expert AI Travel Assistant powered by LangGraph, LangChain, and RAG.

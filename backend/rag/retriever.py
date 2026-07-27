@@ -1,7 +1,9 @@
 from typing import Tuple, List
 from rag.store import vector_store
 from langchain_core.documents import Document
+from langsmith import traceable
 
+@traceable(name="retrieve_context_for_query")
 def retrieve_context_for_query(query: str) -> Tuple[str, bool, List[str]]:
     docs: List[Document] = vector_store.similarity_search(query, k=3)
     if not docs:

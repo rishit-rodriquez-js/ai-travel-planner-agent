@@ -1,7 +1,9 @@
 import httpx
 from typing import Optional
+from langsmith import traceable
 from models.schemas import CountryInfo
 
+@traceable(name="fetch_country_info")
 async def fetch_country_info(destination: str) -> Optional[CountryInfo]:
     try:
         # Extract country name if user passes city like "Tokyo, Japan" or "Paris"

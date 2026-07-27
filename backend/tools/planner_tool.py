@@ -1,9 +1,12 @@
 import json
 from typing import Tuple, List
 from openai import AsyncOpenAI
+from langsmith import traceable
+from langsmith.wrappers import wrap_openai
 from config.settings import settings
 from models.schemas import PlannerRequest, PlannerResponse, ItineraryDay, BudgetBreakdown
 
+@traceable(name="generate_itinerary_tool")
 async def generate_itinerary_tool(req: PlannerRequest) -> Tuple[PlannerResponse, List[str]]:
     steps = [
         "✓ Query Received: Travel Planner requested",
@@ -11,7 +14,7 @@ async def generate_itinerary_tool(req: PlannerRequest) -> Tuple[PlannerResponse,
         "✓ Travel Planner Tool Executing"
     ]
     
-    client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY) if settings.OPENAI_API_KEY else None
+    client = wrap_openai(AsyncOpenAI(api_key=settings.OPENAI_API_KEY)) if settings.OPENAI_API_KEY else None
     
     prompt = f"""
     Act as an expert AI Travel Planner. Generate a comprehensive JSON itinerary for a trip to:

@@ -1,5 +1,7 @@
 from typing import Tuple, List
+from langsmith import traceable
 
+@traceable(name="classify_intent")
 def classify_intent(query: str) -> str:
     q = query.lower()
     
