@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -20,7 +20,7 @@ export const sendChatMessage = async (data) => {
 };
 
 export const uploadRAGDocument = async (formData) => {
-  const response = await axios.post(`${API_BASE_URL}/rag/upload`, formData, {
+  const response = await api.post('/rag/upload', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
