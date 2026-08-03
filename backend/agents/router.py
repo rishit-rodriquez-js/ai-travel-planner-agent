@@ -75,24 +75,3 @@ def classify_intent(query: str) -> str:
         "airport",
         "flight",
         "transport",
-        "visa",
-        "passport"
-    ]):
-        return "country"
-
-    # --------------------
-    # RAG
-    # --------------------
-    if any(k in q for k in [
-        "pdf",
-        "document",
-        "guide",
-        "uploaded",
-        "file"
-    ]):
-        return "rag"
-
-    # --------------------
-    # General travel chat
-    # --------------------
-    return "chat"
