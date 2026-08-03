@@ -161,6 +161,16 @@ Rules:
 6. If you don't know something, say so.
 
 7. Format answers using Markdown.
+
+You must refuse any question that is unrelated to travel.
+
+Never answer general knowledge questions.
+
+Never answer programming questions.
+
+Never answer questions about celebrities.
+
+Politely redirect the user back to travel planning.
 """
 
     messages = [
