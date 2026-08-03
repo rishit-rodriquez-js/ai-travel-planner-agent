@@ -10,7 +10,29 @@ from services.weather_service import fetch_weather_info
 from services.country_service import fetch_country_info
 from rag.retriever import retrieve_context_for_query
 
+TRAVEL_KEYWORDS = {
+    "travel", "trip", "tour", "vacation", "itinerary",
+    "hotel", "flight", "airport", "visa", "passport",
+    "weather", "country", "city", "destination",
+    "food", "restaurant", "transport", "museum",
+    "beach", "packing", "budget", "culture", "guide"
+}
 
+BLOCKED_PATTERNS = {
+    "ignore previous",
+    "ignore all instructions",
+    "system prompt",
+    "developer prompt",
+    "reveal prompt",
+    "show your prompt",
+    "api key",
+    "password",
+    "secret",
+    "token",
+    ".env",
+    "backend code",
+    "print config"
+}
 
 def validate_query(query: str):
     q = query.lower().strip()
@@ -73,11 +95,7 @@ async def process_agent_chat(
 
    intent = classify_intent(query)
    steps.append(f"✓ Intent Classified: {intent.upper()}")
-
-       intent = classify_intent(query)
-    steps.append(f"✓ Intent Classified: {intent.upper()}")
-
-    if intent == "other":
+   if intent == "other":
         steps.append("✓ Domain Guardrail Triggered")
 
         return (
