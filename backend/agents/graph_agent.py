@@ -11,37 +11,6 @@ from services.country_service import fetch_country_info
 from rag.retriever import retrieve_context_for_query
 
 
-# ===========================
-# Guardrails
-# ===========================
-
-TRAVEL_KEYWORDS = {
-    "travel", "trip", "vacation", "tour", "tourism",
-    "destination", "itinerary", "hotel", "flight",
-    "airport", "visa", "passport", "weather",
-    "country", "city", "food", "restaurant",
-    "packing", "transport", "train", "bus",
-    "beach", "mountain", "museum", "guide",
-    "budget", "currency", "culture", "festival"
-}
-
-BLOCKED_PATTERNS = {
-    "ignore previous",
-    "ignore all instructions",
-    "system prompt",
-    "developer prompt",
-    "reveal prompt",
-    "show your prompt",
-    "api key",
-    "environment variable",
-    "password",
-    "secret",
-    "token",
-    ".env",
-    "backend code",
-    "print config"
-}
-
 
 def validate_query(query: str):
     q = query.lower().strip()
