@@ -93,9 +93,9 @@ async def process_agent_chat(
     # Intent Classification
     # --------------------------
 
-   intent = classify_intent(query)
-   steps.append(f"✓ Intent Classified: {intent.upper()}")
-   if intent == "other":
+    intent = classify_intent(query)
+    steps.append(f"✓ Intent Classified: {intent.upper()}")
+    if intent == "other":
         steps.append("✓ Domain Guardrail Triggered")
 
         return (
@@ -113,6 +113,7 @@ async def process_agent_chat(
             [],
             steps
         )
+
     context = ""
     rag_used = False
     source_docs = []
