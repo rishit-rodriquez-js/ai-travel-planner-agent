@@ -11,11 +11,15 @@ from services.country_service import fetch_country_info
 from rag.retriever import retrieve_context_for_query
 
 TRAVEL_KEYWORDS = {
-    "travel", "trip", "tour", "vacation", "itinerary",
-    "hotel", "flight", "airport", "visa", "passport",
-    "weather", "country", "city", "destination",
-    "food", "restaurant", "transport", "museum",
-    "beach", "packing", "budget", "culture", "guide"
+    "travel","trip","tour","vacation","holiday",
+    "destination","city","country","state","capital",
+    "where","located","location","visit","tourism",
+    "hotel","flight","airport","visa","passport",
+    "weather","temperature","forecast","climate",
+    "restaurant","food","museum","beach",
+    "mountain","culture","currency","budget",
+    "packing","guide","tourist","attractions",
+    "best city","best place","famous"
 }
 
 BLOCKED_PATTERNS = {
@@ -95,24 +99,6 @@ async def process_agent_chat(
 
     intent = classify_intent(query)
     steps.append(f"✓ Intent Classified: {intent.upper()}")
-    if intent == "other":
-        steps.append("✓ Domain Guardrail Triggered")
-
-        return (
-            "🌍 I'm an AI Travel Planner Agent.\n\n"
-            "I specialize in travel-related questions only.\n\n"
-            "You can ask me about:\n"
-            "✈️ Trip planning\n"
-            "🌤 Weather\n"
-            "🏨 Hotels\n"
-            "🍜 Local food\n"
-            "🚆 Transportation\n"
-            "📍 Tourist attractions\n"
-            "📄 Uploaded travel guides",
-            False,
-            [],
-            steps
-        )
 
     context = ""
     rag_used = False
