@@ -1,12 +1,11 @@
 from langsmith import traceable
 
+
 @traceable(name="classify_intent")
 def classify_intent(query: str) -> str:
     q = query.lower().strip()
 
-    # --------------------
     # Weather
-    # --------------------
     if any(k in q for k in [
         "weather",
         "temperature",
@@ -21,18 +20,16 @@ def classify_intent(query: str) -> str:
     ]):
         return "weather"
 
-    # --------------------
-    # Travel Planner
-    # --------------------
+    # Planner
     if any(k in q for k in [
         "plan",
         "planning",
-        "itinerary",
         "trip",
         "travel",
         "vacation",
         "holiday",
         "tour",
+        "itinerary",
         "days",
         "budget",
         "schedule",
@@ -41,13 +38,8 @@ def classify_intent(query: str) -> str:
     ]):
         return "planner"
 
-    # --------------------
-    # Destination / Country
-    # --------------------
+    # Country / Destination
     if any(k in q for k in [
-        "where",
-        "located",
-        "location",
         "country",
         "city",
         "capital",
@@ -56,22 +48,43 @@ def classify_intent(query: str) -> str:
         "language",
         "timezone",
         "flag",
+        "where",
+        "located",
+        "location",
+        "destination",
         "tourist",
         "tourism",
-        "destination",
         "museum",
         "monument",
-        "attraction",
-        "attractions",
         "beach",
         "mountain",
         "culture",
         "history",
-        "famous",
-        "safe",
         "restaurant",
         "food",
         "hotel",
         "airport",
         "flight",
         "transport",
+        "visa",
+        "passport",
+        "safe",
+        "famous",
+        "best city",
+        "best place",
+        "attractions"
+    ]):
+        return "country"
+
+    # Uploaded documents (RAG)
+    if any(k in q for k in [
+        "pdf",
+        "document",
+        "guide",
+        "uploaded",
+        "file"
+    ]):
+        return "rag"
+
+    # Default
+    return "chat"
