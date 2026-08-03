@@ -75,8 +75,6 @@ async def process_agent_chat(
     steps.append(f"✓ Intent Classified: {intent.upper()}")
 
     if intent == "other":
-    steps.append("✓ Domain Guardrail Triggered")
-
     return (
         "🌍 I'm an AI Travel Planner Agent.\n\n"
         "I specialize in travel-related questions only.\n\n"
