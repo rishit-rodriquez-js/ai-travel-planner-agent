@@ -47,7 +47,7 @@ async def process_agent_chat(query: str, history: List[Dict[str, str]] = None) -
 
     steps.append("✓ OpenAI Response Generation Started")
     
-    client = wrap_openai(AsyncOpenAI(api_key=settings.OPENAI_API_KEY)) if settings.OPENAI_API_KEY else None
+    client = wrap_openai(AsyncOpenAI(api_key=settings.OPENAI_API_KEY,base_url="https://openrouter.ai/api/v1")) if settings.OPENAI_API_KEY else None
     
     system_instruction = """
     You are an expert AI Travel Assistant powered by LangGraph, LangChain, and RAG.
