@@ -71,14 +71,16 @@ async def process_agent_chat(
     # Intent Classification
     # --------------------------
 
-    intent = classify_intent(query)
-    steps.append(f"✓ Intent Classified: {intent.upper()}")
+   intent = classify_intent(query)
+   steps.append(f"✓ Intent Classified: {intent.upper()}")
 
-    if intent == "other":
+   if intent == "other":
+    steps.append("✓ Domain Guardrail Triggered")
+
     return (
         "🌍 I'm an AI Travel Planner Agent.\n\n"
         "I specialize in travel-related questions only.\n\n"
-        "You can ask me about:\n\n"
+        "You can ask me about:\n"
         "✈️ Trip planning\n"
         "🌤 Weather\n"
         "🏨 Hotels\n"
@@ -90,7 +92,6 @@ async def process_agent_chat(
         [],
         steps
     )
-
     context = ""
     rag_used = False
     source_docs = []
