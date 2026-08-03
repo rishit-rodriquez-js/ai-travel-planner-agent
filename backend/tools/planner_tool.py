@@ -14,7 +14,7 @@ async def generate_itinerary_tool(req: PlannerRequest) -> Tuple[PlannerResponse,
         "✓ Travel Planner Tool Executing"
     ]
     
-    client = wrap_openai(AsyncOpenAI(api_key=settings.OPENAI_API_KEY)) if settings.OPENAI_API_KEY else None
+    client = wrap_openai(AsyncOpenAI(api_key=settings.OPENAI_API_KEY, base_url="https://openrouter.ai/api/v1")) if settings.OPENAI_API_KEY else None
     
     prompt = f"""
     Act as an expert AI Travel Planner. Generate a comprehensive JSON itinerary for a trip to:
