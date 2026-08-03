@@ -14,6 +14,67 @@ async def process_agent_chat(query: str, history: List[Dict[str, str]] = None) -
     steps = [
         "✓ Query Received",
     ]
+
+    # =========================
+# Guardrails
+# =========================
+
+query_lower = query.lower().strip()
+
+# Allowed travel keywords
+TRAVEL_KEYWORDS = [
+    "travel", "trip", "vacation", "tour", "tourism",
+    "destination", "itinerary", "hotel", "flight",
+    "airport", "visa", "passport", "weather",
+    "country", "city", "food", "restaurant",
+    "packing", "transport", "train", "bus",
+    "beach", "mountain", "museum", "guide",
+    "budget", "currency", "culture", "festival"
+]
+
+# Prompt injection / secret access
+BLOCKED_PATTERNS = [
+    "ignore previous",
+    "ignore all instructions",
+    "system prompt",
+    "developer prompt",
+    "reveal prompt",
+    "show your prompt",
+    "api key",
+    "environment variable",
+    "secret",
+    "password",
+    "token",
+    ".env",
+    "backend code",
+    "print config"
+]
+
+# Block prompt injection
+if any(x in query_lower for x in BLOCKED_PATTERNS):
+    return (
+        "⚠️ This request cannot be processed because it attempts to access protected system information.",
+        False,
+        [],
+        ["✓ Security Guardrail Triggered"]
+    )
+
+# Allow RAG questions
+rag_context, rag_has_results, docs = retrieve_context_for_query(query)
+
+# Block unrelated questions
+if (
+    not any(word in query_lower for word in TRAVEL_KEYWORDS)
+    and not rag_has_results
+):
+    return (
+        "🌍 I'm an AI Travel Planner.\n\n"
+        "I can answer questions related to travel planning, destinations, weather, local food, transportation, visas, culture, and uploaded travel documents.\n\n"
+        "Please ask a travel-related question.",
+        False,
+        [],
+        ["✓ Domain Guardrail Triggered"]
+    )
     
     intent = classify_intent(query)
     steps.append(f"✓ Intent Classified: {intent.upper()}")
